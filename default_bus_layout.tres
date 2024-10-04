@@ -1,0 +1,23 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://bhquijix5bi0u"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_l6j5p"]
+resource_name = "Reverb"
+room_size = 0.85
+damping = 0.33
+dry = 0.44
+wet = 0.49
+
+[sub_resource type="AudioEffectFilter" id="AudioEffectFilter_mpfb6"]
+resource_name = "Filter"
+
+[resource]
+bus/0/effect/0/effect = SubResource("AudioEffectReverb_l6j5p")
+bus/0/effect/0/enabled = true
+bus/0/effect/1/effect = SubResource("AudioEffectFilter_mpfb6")
+bus/0/effect/1/enabled = false
+bus/1/name = &"New Bus"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"

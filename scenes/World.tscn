@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://p7snpb5sqx1g"]
+
+[ext_resource type="Texture2D" uid="uid://cc4khvs0p02qp" path="res://textures/ground-GreenLeavesWhiteFlowers.png" id="1_ucmtt"]
+[ext_resource type="PackedScene" uid="uid://dqa41lju0ylb0" path="res://scenes/psxt_vstyled.tscn" id="2_xdtrm"]
+[ext_resource type="Shader" path="res://shaders/stars.gdshader" id="3_b2o83"]
+[ext_resource type="PackedScene" uid="uid://d1dgf8er765eq" path="res://scenes/player.tscn" id="3_pnkm5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w8c7j"]
+albedo_texture = ExtResource("1_ucmtt")
+uv1_scale = Vector3(5.615, 5.615, 5.615)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pe6nx"]
+material = SubResource("StandardMaterial3D_w8c7j")
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3tisa"]
+size = Vector3(20, 0.01, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0gley"]
+shader = ExtResource("3_b2o83")
+shader_parameter/sky_color = Color(0, 0, 0, 1)
+shader_parameter/star_base_color = Color(0.824537, 1, 0.686214, 1)
+shader_parameter/star_hue_offset = 1.0
+shader_parameter/star_intensity = 0.1
+shader_parameter/star_twinkle_speed = 1.022
+shader_parameter/star_twinkle_intensity = 0.645
+shader_parameter/layer_scale = 22.222
+shader_parameter/layer_scale_step = 10.0
+shader_parameter/layers_count = 3
+
+[sub_resource type="Sky" id="Sky_78lpr"]
+sky_material = SubResource("ShaderMaterial_0gley")
+
+[sub_resource type="Environment" id="Environment_rw2v2"]
+background_mode = 2
+sky = SubResource("Sky_78lpr")
+
+[node name="World" type="Node3D"]
+
+[node name="Terrain" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_pe6nx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0100365, -0.0283179, 0.00536919)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/StaticBody3D"]
+shape = SubResource("BoxShape3D_3tisa")
+
+[node name="PSXTVstyled" parent="." instance=ExtResource("2_xdtrm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.95449, 1.89601, -0.477091)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rw2v2")
+
+[node name="Player" parent="." instance=ExtResource("3_pnkm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46028, 2.16511, 0.00419497)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.00378742, 0.999993, 0, -0.999993, 0.00378742, 4.50832, 4.9987, -0.411374)
+light_energy = 6.943
+spot_angle = 28.4894
