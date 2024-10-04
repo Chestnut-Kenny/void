@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://dpum8c843fcga" path="res://models/PSXTVstyled.blend" id="1_0vscg"]
 [ext_resource type="Shader" path="res://shaders/psx.gdshader" id="2_d7ydy"]
 [ext_resource type="Script" path="res://scenes/psxt_vstyled.gd" id="2_go8ga"]
-[ext_resource type="Texture2D" uid="uid://ccitawvq0oexo" path="res://models/old-silver-tv-isolated-on-260nw-231643081.png" id="3_h58jl"]
-[ext_resource type="VideoStream" path="res://textures/NENA-.ogv" id="5_12h81"]
+[ext_resource type="Texture2D" uid="uid://ccitawvq0oexo" path="res://models/tv.png" id="3_h58jl"]
+[ext_resource type="VideoStream" path="res://textures/#&6.ogv" id="5_12h81"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wramn"]
 render_priority = 0
@@ -29,7 +29,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_y3xsr"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_e6w7s"]
 resource_name = "PSXTVstyled_Cube"
 _surfaces = [{
 "aabb": AABB(-1, -1.36257, -1, 1.75887, 2.36257, 2.00332),
@@ -78,7 +78,7 @@ script = ExtResource("2_go8ga")
 
 [node name="Cube" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00276768, 0.000125432, -0.0113645)
-mesh = SubResource("ArrayMesh_y3xsr")
+mesh = SubResource("ArrayMesh_e6w7s")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube" index="0"]
 collision_mask = 2

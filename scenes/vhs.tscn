@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dipq7uql6rlgm"]
+[gd_scene load_steps=9 format=3 uid="uid://dipq7uql6rlgm"]
 
 [ext_resource type="Shader" path="res://shaders/vhs2.gdshader" id="1_aw780"]
 [ext_resource type="Script" path="res://scenes/vhs.gd" id="1_gcsh1"]
+[ext_resource type="Shader" path="res://shaders/glitch.gdshader" id="2_dxchv"]
 [ext_resource type="Texture2D" uid="uid://buldrb7tfdhpn" path="res://textures/XlscD8.jpg" id="2_eg11j"]
 [ext_resource type="PackedScene" uid="uid://p7snpb5sqx1g" path="res://scenes/World.tscn" id="3_1wepj"]
-[ext_resource type="AudioStream" uid="uid://bkiqmmxor27mm" path="res://textures/NENA-.ogg" id="4_x6eop"]
+[ext_resource type="AudioStream" uid="uid://bkiqmmxor27mm" path="res://textures/#&6.ogg" id="4_x6eop"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cgauk"]
 shader = ExtResource("1_aw780")
@@ -13,22 +14,30 @@ shader_parameter/samples = 2
 shader_parameter/crease_noise = 1.0
 shader_parameter/crease_opacity = 0.5
 shader_parameter/filter_intensity = 0.1
-shader_parameter/tape_crease_smear = 0.2
-shader_parameter/tape_crease_intensity = 0.2
-shader_parameter/tape_crease_jitter = 0.1
+shader_parameter/tape_crease_smear = 0.7
+shader_parameter/tape_crease_intensity = 0.5
+shader_parameter/tape_crease_jitter = 0.41
 shader_parameter/tape_crease_speed = 0.5
 shader_parameter/tape_crease_discoloration = 1.0
-shader_parameter/bottom_border_thickness = 6.0
-shader_parameter/bottom_border_jitter = 6.0
+shader_parameter/bottom_border_thickness = 0.0
+shader_parameter/bottom_border_jitter = 0.0
 shader_parameter/noise_intensity = 0.2
 shader_parameter/noise_texture = ExtResource("2_eg11j")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1l8qg"]
+shader = ExtResource("2_dxchv")
+shader_parameter/shake_power = 0.03
+shader_parameter/shake_rate = 0.15
+shader_parameter/shake_speed = 10.0
+shader_parameter/shake_block_size = 30.5
+shader_parameter/shake_color_rate = 0.01
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_gcsh1")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="vhs" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_cgauk")
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,10 +46,19 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="World" parent="CanvasLayer/ColorRect" instance=ExtResource("3_1wepj")]
+[node name="World" parent="CanvasLayer/vhs" instance=ExtResource("3_1wepj")]
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.58555, 2.0813, -0.49053)
 stream = ExtResource("4_x6eop")
 volume_db = -23.063
 autoplay = true
+
+[node name="glitch" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1l8qg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
