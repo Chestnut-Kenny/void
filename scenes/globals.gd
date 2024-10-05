@@ -1,9 +1,10 @@
-extends Node3D
+extends Node
 
-@onready var music = $AudioStreamPlayer3D
-@onready var controller: Node3D = $CanvasLayer/SubViewportContainer/SubViewport/controller
+
 var point = false
 
+
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 

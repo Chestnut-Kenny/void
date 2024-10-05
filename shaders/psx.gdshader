@@ -12,6 +12,7 @@ uniform float alpha_scissor : hint_range(0, 1) = 0.5;
 uniform float jitter: hint_range(0, 1) = 0.25;
 uniform ivec2 resolution = ivec2(320, 240);
 
+
 vec4 snap_to_position(vec4 base_position)
 {
 	vec4 snapped_position = base_position;
@@ -47,4 +48,5 @@ void fragment()
 	ALBEDO = (color_base * texture_color).rgb;
 	ALPHA = texture_color.a * color_base.a;
 	ALPHA_SCISSOR_THRESHOLD = alpha_scissor;
+
 }

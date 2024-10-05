@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwtf3ekd3hiau"]
+
+[ext_resource type="Shader" path="res://shaders/vhs2.gdshader" id="1_3dhby"]
+[ext_resource type="Script" path="res://scenes/point.gd" id="1_fc5td"]
+[ext_resource type="Texture2D" uid="uid://buldrb7tfdhpn" path="res://textures/XlscD8.jpg" id="2_oxy27"]
+[ext_resource type="PackedScene" uid="uid://bnu2hu2fm628g" path="res://scenes/PS1Controller.tscn" id="3_7nuqq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ta0ie"]
+shader = ExtResource("1_3dhby")
+shader_parameter/vhs_resolution = Vector2(320, 240)
+shader_parameter/samples = 2
+shader_parameter/crease_noise = 1.0
+shader_parameter/crease_opacity = 0.5
+shader_parameter/filter_intensity = 0.1
+shader_parameter/tape_crease_smear = 0.7
+shader_parameter/tape_crease_intensity = 0.5
+shader_parameter/tape_crease_jitter = 0.41
+shader_parameter/tape_crease_speed = 0.5
+shader_parameter/tape_crease_discoloration = 1.0
+shader_parameter/bottom_border_thickness = 0.0
+shader_parameter/bottom_border_jitter = 0.0
+shader_parameter/noise_intensity = 0.2
+shader_parameter/noise_texture = ExtResource("2_oxy27")
+
+[node name="controller" type="Node3D"]
+script = ExtResource("1_fc5td")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.106
+anchor_right = 0.106
+offset_right = 267.0
+offset_bottom = 562.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(267, 562)
+size_2d_override = Vector2i(5, 0)
+render_target_update_mode = 0
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.39447, -8.29814)
+
+[node name="Ps1ControllerPSXStyled" parent="CanvasLayer/SubViewportContainer/SubViewport/Camera3D" instance=ExtResource("3_7nuqq")]
+transform = Transform3D(0.31, 0, 0, 0, 0.00261326, -0.309989, 0, 0.309989, 0.00261326, 0, 0, -3.17697)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="vhs" type="ColorRect" parent="CanvasLayer2"]
+material = SubResource("ShaderMaterial_ta0ie")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

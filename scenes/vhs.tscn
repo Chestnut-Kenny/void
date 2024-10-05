@@ -1,28 +1,18 @@
 [gd_scene load_steps=9 format=3 uid="uid://dipq7uql6rlgm"]
 
-[ext_resource type="Shader" path="res://shaders/vhs2.gdshader" id="1_aw780"]
 [ext_resource type="Script" path="res://scenes/vhs.gd" id="1_gcsh1"]
 [ext_resource type="Shader" path="res://shaders/glitch.gdshader" id="2_dxchv"]
-[ext_resource type="Texture2D" uid="uid://buldrb7tfdhpn" path="res://textures/XlscD8.jpg" id="2_eg11j"]
+[ext_resource type="Shader" path="res://shaders/ps1Shader.gdshader" id="2_r5dmm"]
 [ext_resource type="PackedScene" uid="uid://p7snpb5sqx1g" path="res://scenes/World.tscn" id="3_1wepj"]
 [ext_resource type="AudioStream" uid="uid://bkiqmmxor27mm" path="res://textures/#&6.ogg" id="4_x6eop"]
+[ext_resource type="PackedScene" uid="uid://dwtf3ekd3hiau" path="res://scenes/point.tscn" id="5_sa5au"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cgauk"]
-shader = ExtResource("1_aw780")
-shader_parameter/vhs_resolution = Vector2(320, 240)
-shader_parameter/samples = 2
-shader_parameter/crease_noise = 1.0
-shader_parameter/crease_opacity = 0.5
-shader_parameter/filter_intensity = 0.1
-shader_parameter/tape_crease_smear = 0.7
-shader_parameter/tape_crease_intensity = 0.5
-shader_parameter/tape_crease_jitter = 0.41
-shader_parameter/tape_crease_speed = 0.5
-shader_parameter/tape_crease_discoloration = 1.0
-shader_parameter/bottom_border_thickness = 0.0
-shader_parameter/bottom_border_jitter = 0.0
-shader_parameter/noise_intensity = 0.2
-shader_parameter/noise_texture = ExtResource("2_eg11j")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tg7i8"]
+shader = ExtResource("2_r5dmm")
+shader_parameter/enabled = true
+shader_parameter/dithering = true
+shader_parameter/colors = 16
+shader_parameter/dither_size = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1l8qg"]
 shader = ExtResource("2_dxchv")
@@ -37,24 +27,31 @@ script = ExtResource("1_gcsh1")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="vhs" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_cgauk")
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_tg7i8")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -862.5
+offset_top = -497.0
+offset_right = 862.5
+offset_bottom = 497.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 
-[node name="World" parent="CanvasLayer/vhs" instance=ExtResource("3_1wepj")]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(3942, 1992)
+render_target_update_mode = 4
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.58555, 2.0813, -0.49053)
-stream = ExtResource("4_x6eop")
-volume_db = -23.063
-autoplay = true
+[node name="controller" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("5_sa5au")]
 
-[node name="glitch" type="ColorRect" parent="."]
+[node name="World" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("3_1wepj")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="CanvasLayer/SubViewportContainer/SubViewport/World"]
+
+[node name="glitch" type="ColorRect" parent="CanvasLayer/SubViewportContainer/SubViewport/World/CanvasLayer2"]
 material = SubResource("ShaderMaterial_1l8qg")
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,3 +59,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.58555, 2.0813, -0.49053)
+stream = ExtResource("4_x6eop")
+volume_db = -23.063
+autoplay = true
